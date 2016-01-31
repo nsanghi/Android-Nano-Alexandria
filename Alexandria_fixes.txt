@@ -1,0 +1,9 @@
+AddBook.java & BookDetail.java - fixed the crashing caused when author is blank
+
+Implemented Barcode reader using example from https://github.com/googlesamples/android-vision
+
+changed Image download to Picasso from native downloader
+
+
+
+
