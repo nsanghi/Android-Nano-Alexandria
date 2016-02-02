@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -125,10 +126,16 @@ public class BookService extends IntentService {
             }
 
             if (buffer.length() == 0) {
+                Toast.makeText(this, getString(R.string.server_down), Toast.LENGTH_SHORT).show();
                 return;
             }
             bookJsonString = buffer.toString();
-        } catch (Exception e) {
+
+        }   catch (IOException e) {
+            Toast.makeText(this, getString(R.string.server_down), Toast.LENGTH_SHORT).show();
+            Log.e(LOG_TAG, "Error ", e);
+        }   catch (Exception e) {
+            Toast.makeText(this, getString(R.string.server_down), Toast.LENGTH_SHORT).show();
             Log.e(LOG_TAG, "Error ", e);
         } finally {
             if (urlConnection != null) {
@@ -193,11 +200,12 @@ public class BookService extends IntentService {
                 writeBackAuthors(ean, bookInfo.getJSONArray(AUTHORS));
             }
             if(bookInfo.has(CATEGORIES)){
-                writeBackCategories(ean,bookInfo.getJSONArray(CATEGORIES) );
+                writeBackCategories(ean, bookInfo.getJSONArray(CATEGORIES));
             }
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Error ", e);
+            Toast.makeText(this, getString(R.string.server_error), Toast.LENGTH_SHORT).show();
         }
     }
 
